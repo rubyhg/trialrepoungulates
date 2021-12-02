@@ -1,0 +1,44 @@
+---
+title: "classic zoe ruby mess-around"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages}
+library(tidyverse)
+library(janitor)
+```
+We first want to clean up the data a little!
+
+```{r import and clean data}
+herbs <- read_csv("trialherbdata.csv") # use underscore
+
+clean_herbs <- herbs %>% 
+  clean_names()
+```
+Ruby wants to know the number of plant species that each herbivore species ate.
+
+```{r number of plants in diet}
+
+herb <- clean_herbs %>% # making a new dataframe just for this question (not necessary)
+  select(ungulate_latin_name, ungulate_common_name, plant_reported_name, citation_abrv) %>%  # what columns are necessary for this question?
+  filter(!is.na(ungulate_latin_name))
+
+# checking some things:
+unique(herb$ungulate_common_name)
+unique(herb$ungulate_latin_name) # more common names than latin names - QA QC
+
+# quick easy summary table
+diet_sum <- herb %>% # 
+  group_by(ungulate_common_name) %>% 
+  summarise(Plant_Count = n_distinct(plant_reported_name))
+
+diet_sum_latin <- herb %>% # make new thing
+  group_by(ungulate_latin_name) %>% # group  
+  summarise(Plant_Count = n_distinct(plant_reported_name)) #n_distinct counts the number of unique plant names -> put these in a column called Plant_Count. summarise is jsut a placeholder for basically any summary stat (mean, sum, etc)
+```
+
