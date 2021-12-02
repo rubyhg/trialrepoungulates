@@ -13,11 +13,13 @@ Is this working??
 
 ```{r}
 library(tidyverse)
+library(janitor)
 ```
 
 Loading in the data below
 
 ```{r}
-herb_data <- read.csv("trialherbdata.csv")
+herb_data <- read_csv("trialherbdata.csv") %>% 
+  clean_names()
 ```
 
