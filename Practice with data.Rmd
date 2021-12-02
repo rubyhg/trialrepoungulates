@@ -10,3 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Is this working??
+
+```{r}
+library(tidyverse)
+```
+
+Loading in the data below
+
+```{r}
+herb_data <- read.csv("trialherbdata.csv")
+```
+
